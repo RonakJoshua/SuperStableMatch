@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <style>
+        .center {
+          margin: 0;
+          top: 100px;
+          left: 50%;
+          -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+        }
+        h1 {
+            font-family: 'Helvetica Light', Helvetica, sans-serif;
+            font-size: 40px;
+            font-weight: 150;
+            color: black;
+            padding-left: 20px;
+        }
+
+        p {
+            font-family: 'Helvetica Light', Helvetica, sans-serif;
+            font-size: 20px;
+            font-weight: 150;
+            color: black;
+            /*padding-left: 20px;*/
+        }
+
+        a {
+            padding: 7px 30px;
+            background: #00bd91;
+            color: white;
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            font-family: 'Helvetica Light', Helvetica, sans-serif;
+            font-weight: 200;
+            font-size: 20px;
+        }
+
+        .leftpane {
+            width: 30%;
+            height: 100%;
+            float: left;
+            /*background-color: rosybrown;*/
+            border-collapse: collapse;
+        }
+
+        .rightpane {
+            width: 70%;
+            height: 100%;
+            float: left;
+            border-left-color: #243137;
+            border-left-width: 5px;
+            /*background-color: royalblue;*/
+            border-collapse: collapse;
+        }
+
+        .tooltip {
+            font-family: 'Helvetica Light', Helvetica, sans-serif;
+            font-weight: 200;
+            font-size: 20px;
+            position: relative;
+            display: inline-block;
+            /*border-bottom: 1px dotted black;*/
+        }
+
+        .tooltip .tooltiptext {
+          visibility: hidden;
+          width: 400px;
+          background-color: black;
+          color: #fff;
+          text-align: left;
+          border-radius: 6px;
+          padding: 5px 0;
+
+          /* Position the tooltip */
+          position: absolute;
+          z-index: 1;
+        }
+
+        .tooltip:hover .tooltiptext {
+          visibility: visible;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Super Stable Matching Algorithm</h1>
+    <div class="leftpane">
+        <div style="top: 50px;">
+            <p></p>
+            <a class="center" type="button" href="{{ url_for('hello_world') }}" style="text-decoration:none;">Generate Random Input and Run</a>
+        </div>
+    </div>
+    <div class="rightpane">
+        {% if data is none %}
+            <p>None (no matches found)</p>
+        {% else %}
+            <p>Pairings (man, woman). Use mouse-over to see preferences:</p>
+            {% for male in data.maleSet %}
+                <p>
+                    <div class="tooltip" style="display: inline">(m{{ male.index + 1 }}
+                        <span class="tooltiptext">{{ male.originalPreferenceText }}</span>
+                    </div>,
+                    <div class="tooltip" style="display: inline">w{{ male.engagedWith[0] + 1 }})
+                        <span class="tooltiptext">{{ data.findWoman(male.engagedWith[0]).originalPreferenceText }}</span>
+                    </div>
+                </p>
+            {% endfor %}
+        {% endif %}
+        <body onload="draw();">
+        <canvas id="circle" width="150" height="150"></canvas>
+        </body>
+    </div>
+</body>
+</html>
